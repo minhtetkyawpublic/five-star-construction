@@ -1,11 +1,11 @@
 # Construction Management Web App Roadmap
 
-This roadmap is for a mobile-first construction management web app using React frontend, PHP API backend, and MySQL database.
+This roadmap is for a mobile-first construction management web app using React frontend, PHP API server, and MySQL database.
 
 ## Phase 1: Project Setup
 
 1. Create React frontend project.
-2. Create PHP backend API folder.
+2. Create PHP server API folder.
 3. Create MySQL database.
 4. Add environment configuration for database connection.
 5. Create basic API response format for success and error responses.
@@ -20,7 +20,7 @@ This roadmap is for a mobile-first construction management web app using React f
 3. Build login API.
 4. Store hashed passwords in database.
 5. Add authenticated API middleware.
-6. Add role checking in backend.
+6. Add role checking in the server.
 7. Build frontend login screen.
 8. Redirect users based on role after login.
 
@@ -91,7 +91,7 @@ This roadmap is for a mobile-first construction management web app using React f
 
 1. Create `report_settings` table.
 2. Store attendance edit cutoff time.
-3. Add backend validation before creating or editing daily reports.
+3. Add server validation before creating or editing daily reports.
 4. Site in-charge can add/edit daily report only before cutoff time.
 5. After cutoff time, daily report becomes read-only for site in-charge.
 6. Owner can still edit locked reports.
@@ -166,7 +166,7 @@ This roadmap is for a mobile-first construction management web app using React f
 ## Phase 13: Online-Only Data Entry
 
 1. Require internet connection for attendance, payment, stock, and report actions.
-2. Show clear error message when the app cannot connect to the backend.
+2. Show clear error message when the app cannot connect to the server.
 3. Do not save unsynced attendance, payment, stock, or report drafts on device.
 4. Keep installed app caching only for frontend app files, not business data.
 
@@ -184,4 +184,4 @@ This roadmap is for a mobile-first construction management web app using React f
 10. Test monthly stock and cash report calculation.
 11. Test install button behavior.
 12. Test installed app launch from phone home screen.
-13. Test online-only behavior when network/backend is unavailable.
+13. Test online-only behavior when network/server is unavailable.

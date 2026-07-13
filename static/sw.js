@@ -23,7 +23,7 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
-  if (url.pathname.startsWith('/api/') || url.pathname.includes('/backend/')) {
+  if (url.pathname.startsWith('/api/') || url.pathname.includes('/server/')) {
     return;
   }
   if (event.request.method !== 'GET') {
