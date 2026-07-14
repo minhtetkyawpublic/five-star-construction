@@ -925,7 +925,13 @@ h1 {
 
 .check-row input {
   height: 18px;
+  min-height: 18px;
+  padding: 0;
   width: 18px;
+}
+
+.login-form .remember-row {
+  margin-top: -4px;
 }
 
 .check-row span {

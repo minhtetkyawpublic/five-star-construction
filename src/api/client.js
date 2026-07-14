@@ -6,15 +6,18 @@ function normalizePath(path) {
 }
 
 export function getAuthToken() {
-  return localStorage.getItem(TOKEN_KEY);
+  return localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
 }
 
-export function setAuthToken(token) {
-  localStorage.setItem(TOKEN_KEY, token);
+export function setAuthToken(token, remember = true) {
+  clearAuthToken();
+  const storage = remember ? localStorage : sessionStorage;
+  storage.setItem(TOKEN_KEY, token);
 }
 
 export function clearAuthToken() {
   localStorage.removeItem(TOKEN_KEY);
+  sessionStorage.removeItem(TOKEN_KEY);
 }
 
 async function request(path, options = {}) {
@@ -84,9 +87,9 @@ export const apiClient = {
 };
 
 export const authApi = {
-  async login(phone, password) {
+  async login(phone, password, remember = true) {
     const response = await apiClient.post('/api/login', { phone, password });
-    setAuthToken(response.data.token);
+    setAuthToken(response.data.token, remember);
     return response.data.user;
   },
   async me() {

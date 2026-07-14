@@ -47,6 +47,8 @@ export const translations = {
   'auth.signIn': { en: 'Sign in', my: 'ဝင်မည်' },
   'auth.signingIn': { en: 'Signing in...', my: 'ဝင်နေသည်...' },
   'auth.unableLogin': { en: 'Unable to login.', my: 'ဝင်၍ မရပါ။' },
+  'auth.rememberMe': { en: 'Remember me', my: 'မှတ်ထားမည်' },
+  'auth.rememberMeHelp': { en: 'Keep me logged in on this device.', my: 'ဤစက်တွင် ထပ်မံဝင်ရန် မလိုအောင် မှတ်ထားမည်။' },
 
   'sites.create': { en: 'Create Site', my: 'ဆိုက်အသစ် ဖန်တီးမည်' },
   'sites.edit': { en: 'Edit Site', my: 'ဆိုက် ပြင်မည်' },

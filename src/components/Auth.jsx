@@ -5,6 +5,7 @@ import { t } from '../i18n/translations';
 export function LoginScreen({ onLogin }) {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+  const [remember, setRemember] = useState(true);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -14,7 +15,7 @@ export function LoginScreen({ onLogin }) {
     setSubmitting(true);
 
     try {
-      const loggedInUser = await authApi.login(phone, password);
+      const loggedInUser = await authApi.login(phone, password, remember);
       onLogin(loggedInUser);
     } catch (loginError) {
       setError(loginError.message || t('auth.unableLogin'));
@@ -53,6 +54,18 @@ export function LoginScreen({ onLogin }) {
               type="password"
               value={password}
             />
+          </label>
+
+          <label className="check-row remember-row">
+            <input
+              checked={remember}
+              onChange={(event) => setRemember(event.target.checked)}
+              type="checkbox"
+            />
+            <span>
+              <strong>{t('auth.rememberMe')}</strong>
+              <small>{t('auth.rememberMeHelp')}</small>
+            </span>
           </label>
 
           {error && <p className="form-error">{error}</p>}
