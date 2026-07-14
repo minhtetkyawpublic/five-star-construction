@@ -4,82 +4,90 @@ import { t } from '../i18n/translations';
 export function InstallPrompt() {
   const [promptEvent, setPromptEvent] = useState(null);
   const [visible, setVisible] = useState(false);
-  const [canPrompt, setCanPrompt] = useState(false);
-  const [manualHelp, setManualHelp] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem('app_installed') === '1') return;
     if (sessionStorage.getItem('install_hidden_this_session') === '1') return;
 
-    const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
     const phoneOrTablet = window.matchMedia('(max-width: 1023px)').matches;
 
-    if (!standalone && phoneOrTablet) {
-      const fallbackTimer = window.setTimeout(() => {
-        setVisible(true);
-        window.setTimeout(() => setVisible(false), 12000);
-      }, 1800);
-
-      return () => window.clearTimeout(fallbackTimer);
+    if (isInstalled()) {
+      markInstalled();
+      return;
     }
-  }, []);
 
-  useEffect(() => {
-    if (localStorage.getItem('app_installed') === '1') return;
-    if (sessionStorage.getItem('install_hidden_this_session') === '1') return;
-
-    const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-    const phoneOrTablet = window.matchMedia('(max-width: 1023px)');
+    const displayMode = window.matchMedia('(display-mode: standalone)');
 
     function onPrompt(event) {
       event.preventDefault();
-      if (!standalone && phoneOrTablet.matches) {
+      if (!isInstalled() && phoneOrTablet) {
         setPromptEvent(event);
-        setCanPrompt(true);
         setVisible(true);
         window.setTimeout(() => setVisible(false), 12000);
       }
     }
 
     function onInstalled() {
-      setVisible(false);
-      localStorage.setItem('app_installed', '1');
+      markInstalled();
     }
 
-    function onScreenChange(event) {
-      if (!event.matches) setVisible(false);
+    function onDisplayModeChange() {
+      if (isInstalled()) {
+        markInstalled();
+      }
     }
 
     window.addEventListener('beforeinstallprompt', onPrompt);
     window.addEventListener('appinstalled', onInstalled);
-    phoneOrTablet.addEventListener('change', onScreenChange);
+    displayMode.addEventListener('change', onDisplayModeChange);
+
     return () => {
       window.removeEventListener('beforeinstallprompt', onPrompt);
       window.removeEventListener('appinstalled', onInstalled);
-      phoneOrTablet.removeEventListener('change', onScreenChange);
+      displayMode.removeEventListener('change', onDisplayModeChange);
     };
   }, []);
 
   async function install() {
     if (!promptEvent) {
-      setManualHelp(true);
+      setVisible(false);
       return;
     }
     promptEvent.prompt();
-    await promptEvent.userChoice;
+    const choice = await promptEvent.userChoice;
+    if (choice?.outcome === 'accepted') {
+      markInstalled();
+      return;
+    }
+    setPromptEvent(null);
     setVisible(false);
   }
+
   function dismiss() {
     sessionStorage.setItem('install_hidden_this_session', '1');
     setVisible(false);
   }
+
+  function markInstalled() {
+    localStorage.setItem('app_installed', '1');
+    sessionStorage.removeItem('install_hidden_this_session');
+    setPromptEvent(null);
+    setVisible(false);
+  }
+
   if (!visible) return null;
   return (
     <div className="install-banner">
-      <span>{manualHelp ? t('install.manualHelp') : canPrompt ? t('install.installPhone') : t('install.addHome')}</span>
+      <span>{t('install.installPhone')}</span>
       <button type="button" onClick={install}>{t('install.install')}</button>
       <button type="button" onClick={dismiss}>{t('common.hide')}</button>
     </div>
   );
+}
+
+function isInstalled() {
+  return window.matchMedia('(display-mode: standalone)').matches
+    || window.matchMedia('(display-mode: fullscreen)').matches
+    || window.navigator.standalone === true;
 }
 

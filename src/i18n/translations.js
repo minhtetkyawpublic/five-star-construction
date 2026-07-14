@@ -229,11 +229,6 @@ export const translations = {
   'reports.noEditRequests': { en: 'No edit requests.', my: 'ပြင်ခွင့်တောင်းဆိုမှု မရှိပါ။' },
 
   'install.installPhone': { en: 'Install app on this phone', my: 'ဤဖုန်းတွင် App ထည့်မည်' },
-  'install.addHome': { en: 'Add Five Star to your phone home screen', my: 'Five Star ကို ဖုန်း Home screen တွင် ထည့်ပါ' },
-  'install.manualHelp': {
-    en: 'Use browser menu and choose Add to Home screen.',
-    my: 'Browser menu မှ Add to Home screen ကို ရွေးပါ။',
-  },
   'install.install': { en: 'Install', my: 'ထည့်မည်' },
 };
 
