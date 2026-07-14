@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost/five_star_construction/backend/public/index.php';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost/five-star-construction/server/public/index.php';
 const TOKEN_KEY = 'five_star_auth_token';
 
 function normalizePath(path) {
@@ -34,7 +34,7 @@ async function request(path, options = {}) {
   } catch {
     throw {
       code: 'CONNECTION_ERROR',
-      message: 'Cannot connect to the backend. Please check your internet connection.',
+      message: 'Cannot connect to the server. Please check your internet connection.',
     };
   }
 
@@ -47,7 +47,7 @@ async function request(path, options = {}) {
     } catch {
       throw {
         code: 'INVALID_RESPONSE',
-        message: 'The backend returned an invalid response. Please check PHP and MySQL in XAMPP.',
+        message: 'The server returned an invalid response. Please check PHP and MySQL in XAMPP.',
       };
     }
   }
@@ -64,7 +64,7 @@ async function request(path, options = {}) {
   if (!payload) {
     throw {
       code: 'EMPTY_RESPONSE',
-      message: 'The backend returned an empty response.',
+      message: 'The server returned an empty response.',
     };
   }
 

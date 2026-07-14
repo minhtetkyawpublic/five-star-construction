@@ -1,4 +1,4 @@
 <?php
 
-header('Location: frontend/dist/');
+header('Location: public/');
 exit;

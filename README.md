@@ -4,36 +4,64 @@ Mobile-first construction management web app using React, PHP, and MySQL.
 
 ## Project Structure
 
-- `frontend/` - React app built with Vite.
-- `backend/` - PHP API for MySQL-backed data.
-- `backend/database/schema.sql` - MySQL database bootstrap and migrations.
-- `frontend/dist/` - Built frontend files for hosting that cannot run Node/npm.
+- `src/` - React app built with Vite.
+- `static/` - Frontend static assets copied into builds.
+- `public/` - Built frontend files.
+- `server/` - PHP API for MySQL-backed data.
+- `server/database/schema.sql` - Baseline MySQL schema.
+- `server/database/migrations/` - Future SQL migrations.
+- `.env` - Shared local environment config for frontend and server.
 
 ## Backend Setup
 
-1. Create the database by importing:
-
-   ```sql
-   backend/database/schema.sql
-   ```
-
-2. Copy the backend environment example:
+1. Copy the shared environment example:
 
    ```bash
-   cp backend/.env.example backend/.env
+   cp .env.example .env
    ```
 
-3. Update `backend/.env` with your local MySQL username and password.
+2. Update `.env` with your local MySQL database name, username, password, API URL, and CORS settings.
+
+3. Run database migrations from the project root:
+
+   ```bash
+   php server/migrate.php
+   ```
+
+   Helpful migration commands:
+
+   ```bash
+   php server/migrate.php --status
+   php server/migrate.php --pretend
+   ```
 
 4. Test the health endpoint:
 
    ```text
-   http://localhost/five_star_construction/backend/public/index.php/api/health
+   http://localhost/five-star-construction/server/public/index.php/api/health
    ```
+
+## Backend CORS
+
+Configure CORS in the root `.env`:
+
+```text
+CORS_ALLOWED_ORIGINS=*
+CORS_ALLOWED_HEADERS=Content-Type,Authorization
+CORS_ALLOWED_METHODS=GET,POST,OPTIONS
+CORS_ALLOW_CREDENTIALS=false
+CORS_MAX_AGE=86400
+```
+
+For production, replace `*` with a comma-separated origin allowlist, for example:
+
+```text
+CORS_ALLOWED_ORIGINS=https://example.com,https://www.example.com
+```
 
 ## Default Login
 
-After importing `backend/database/schema.sql`, the first owner account is available:
+After running migrations, the first owner account is available:
 
 ```text
 Phone: owner
@@ -44,21 +72,14 @@ Change this password in a later user-management phase before using the app with 
 
 ## Frontend Setup
 
-1. Copy the frontend environment example:
+1. Install dependencies and run the app:
 
    ```bash
-   cp frontend/.env.example frontend/.env
-   ```
-
-2. Install dependencies and run the app:
-
-   ```bash
-   cd frontend
    npm install
    npm run dev
    ```
 
-3. Build for production:
+2. Build for production:
 
    ```bash
    npm run build
@@ -71,31 +92,34 @@ Use this setup when the hosting server can run PHP/MySQL but cannot run `npm ins
 1. Build the frontend locally before pushing:
 
    ```bash
-   cd frontend
    npm install
    npm run build
    ```
 
-2. Push the repository to GitHub, including the generated `frontend/dist/` folder.
+2. Push the repository to GitHub, including the generated `public/` folder if your hosting server cannot build it.
 
 3. On hosting, pull the repository into the public web folder.
 
-4. Copy backend environment config:
+4. Copy shared environment config:
 
    ```bash
-   cp backend/.env.example backend/.env
+   cp .env.example .env
    ```
 
-5. Edit `backend/.env` with the hosting MySQL database name, username, and password.
+5. Edit `.env` with the hosting MySQL database name, username, password, API URL, and CORS settings.
 
-6. Import `backend/database/schema.sql` into the hosting MySQL database.
+6. Run server migrations from the repository root:
 
-7. Open the website root. `index.php` redirects to the built app at `frontend/dist/`.
+   ```bash
+   php server/migrate.php
+   ```
 
-The production frontend build uses `frontend/.env.production`, so API calls go to:
+7. Open the website root. `index.php` redirects to the built app at `public/`.
+
+For same-domain production hosting with the built frontend in `public/`, set this before building:
 
 ```text
-../../backend/public/index.php
+VITE_API_BASE_URL=../server/public/index.php
 ```
 
-That means the frontend and backend should be kept in the same repository path on the same domain.
+That means the frontend and server should be kept in the same repository path on the same domain.

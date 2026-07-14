@@ -1,9 +1,3 @@
-CREATE DATABASE IF NOT EXISTS five_star_construction
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
-
-USE five_star_construction;
-
 CREATE TABLE IF NOT EXISTS users (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(120) NOT NULL,
