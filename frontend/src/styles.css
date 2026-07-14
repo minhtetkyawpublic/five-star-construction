@@ -82,6 +82,10 @@ button:focus-visible {
   min-height: 320px;
 }
 
+.auth-frame {
+  display: block;
+}
+
 .status-pill {
   background: #e7f0ea;
   border: 1px solid #c6ddce;
@@ -1030,6 +1034,88 @@ h1 {
   margin: 10px 0 12px;
 }
 
+.status-filter {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 10px;
+}
+
+.status-filter button {
+  background: #eef2f3;
+  color: #172026;
+  min-height: 38px;
+  padding: 0 8px;
+}
+
+.status-filter button.active {
+  background: #24583a;
+  color: #ffffff;
+}
+
+.stock-site-panel h3 {
+  font-size: 15px;
+  margin: 0 0 8px;
+}
+
+.stock-summary-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 10px;
+}
+
+.summary-card,
+.calculated-box {
+  background: #eef2f3;
+  border-radius: 8px;
+  color: #172026;
+  padding: 8px;
+}
+
+.summary-card {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.summary-card small {
+  color: #526066;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.summary-card strong {
+  font-size: 13px;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.calculated-box {
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.stock-item-card small {
+  overflow-wrap: anywhere;
+}
+
+.transaction-group {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.transaction-group h3 {
+  font-size: 14px;
+  margin: 0;
+}
+
+.stock-transaction-card {
+  margin-bottom: 2px;
+}
+
 .install-banner {
   align-items: center;
   animation: toast-in 180ms ease;
@@ -1621,6 +1707,29 @@ h1 {
     min-height: calc(100vh - 56px);
     overflow: hidden;
     padding: 0;
+  }
+
+  .phone-frame.compact-frame {
+    display: block;
+    max-width: min(420px, calc(100vw - 56px));
+    min-height: auto;
+    overflow: visible;
+    padding: 28px;
+  }
+
+  .compact-frame .login-form {
+    margin-top: 24px;
+  }
+
+  .compact-frame .login-form input,
+  .compact-frame .login-form button {
+    min-height: 48px;
+  }
+
+  .auth-frame {
+    grid-template-columns: none;
+    grid-template-rows: none;
+    width: min(420px, calc(100vw - 56px));
   }
 
   .drawer-backdrop,

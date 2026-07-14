@@ -470,9 +470,26 @@ if ($method === 'POST' && $path === '/api/cash-transfers') {
     success_response(['cash_transfer' => create_cash_transfer($user, json_input())], 'Cash transfer recorded', 201);
 }
 
+if ($method === 'GET' && $path === '/api/cash-transfers') {
+    $user = require_role(['owner']);
+    $siteId = isset($_GET['site_id']) && $_GET['site_id'] !== '' ? (int) $_GET['site_id'] : null;
+    success_response(['cash_transfers' => list_cash_transfers($user, $siteId)]);
+}
+
 if ($method === 'POST' && $path === '/api/stock-purchases') {
     $user = require_role(['site_incharge']);
     success_response(['stock_purchase' => create_stock_purchase($user, json_input())], 'Stock purchase recorded', 201);
+}
+
+if ($method === 'GET' && $path === '/api/stock-purchases') {
+    $user = require_auth();
+    $siteId = isset($_GET['site_id']) && $_GET['site_id'] !== '' ? (int) $_GET['site_id'] : null;
+    success_response(['stock_purchases' => list_stock_purchases($user, $siteId)]);
+}
+
+if ($method === 'POST' && preg_match('#^/api/stock-purchases/([0-9]+)$#', $path, $matches)) {
+    $user = require_role(['site_incharge']);
+    success_response(['stock_purchase' => update_stock_purchase($user, (int) $matches[1], json_input())]);
 }
 
 if ($method === 'POST' && $path === '/api/stock-usage') {
@@ -480,10 +497,24 @@ if ($method === 'POST' && $path === '/api/stock-usage') {
     success_response(['stock_usage' => create_stock_usage($user, json_input())], 'Stock usage recorded', 201);
 }
 
+if ($method === 'GET' && $path === '/api/stock-usage') {
+    $user = require_auth();
+    $siteId = isset($_GET['site_id']) && $_GET['site_id'] !== '' ? (int) $_GET['site_id'] : null;
+    success_response(['stock_usage' => list_stock_usage($user, $siteId)]);
+}
+
+if ($method === 'POST' && preg_match('#^/api/stock-usage/([0-9]+)$#', $path, $matches)) {
+    $user = require_role(['site_incharge']);
+    success_response(['stock_usage' => update_stock_usage($user, (int) $matches[1], json_input())]);
+}
+
 if ($method === 'GET' && $path === '/api/stock-balances') {
     $user = require_auth();
     $siteId = isset($_GET['site_id']) && $_GET['site_id'] !== '' ? (int) $_GET['site_id'] : null;
-    success_response(['stock_balances' => stock_balances($user, $siteId)]);
+    success_response([
+        'site_summaries' => stock_site_summaries($user, $siteId),
+        'stock_balances' => stock_balances($user, $siteId),
+    ]);
 }
 
 if ($method === 'GET' && $path === '/api/reports/stock/monthly') {

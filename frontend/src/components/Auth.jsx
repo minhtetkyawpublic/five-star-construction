@@ -25,7 +25,7 @@ export function LoginScreen({ onLogin }) {
 
   return (
     <main className="app-shell">
-      <section className="phone-frame">
+      <section className="phone-frame compact-frame auth-frame">
         <div className="status-pill">{t('auth.secureLogin')}</div>
         <h1>{t('app.name')}</h1>
         <p className="intro">{t('auth.intro')}</p>

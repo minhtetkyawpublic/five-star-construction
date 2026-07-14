@@ -319,12 +319,41 @@ export const stockApi = {
     const response = await apiClient.post('/api/cash-transfers', transfer);
     return response.data.cash_transfer;
   },
+  async cashTransfers(params = {}) {
+    const query = new URLSearchParams();
+    if (params.site_id) query.set('site_id', params.site_id);
+    const suffix = query.toString() ? `?${query.toString()}` : '';
+    const response = await apiClient.get(`/api/cash-transfers${suffix}`);
+    return response.data.cash_transfers;
+  },
   async purchase(purchase) {
     const response = await apiClient.post('/api/stock-purchases', purchase);
     return response.data.stock_purchase;
   },
+  async purchases(params = {}) {
+    const query = new URLSearchParams();
+    if (params.site_id) query.set('site_id', params.site_id);
+    const suffix = query.toString() ? `?${query.toString()}` : '';
+    const response = await apiClient.get(`/api/stock-purchases${suffix}`);
+    return response.data.stock_purchases;
+  },
+  async updatePurchase(id, purchase) {
+    const response = await apiClient.post(`/api/stock-purchases/${id}`, purchase);
+    return response.data.stock_purchase;
+  },
   async usage(usage) {
     const response = await apiClient.post('/api/stock-usage', usage);
+    return response.data.stock_usage;
+  },
+  async usages(params = {}) {
+    const query = new URLSearchParams();
+    if (params.site_id) query.set('site_id', params.site_id);
+    const suffix = query.toString() ? `?${query.toString()}` : '';
+    const response = await apiClient.get(`/api/stock-usage${suffix}`);
+    return response.data.stock_usage;
+  },
+  async updateUsage(id, usage) {
+    const response = await apiClient.post(`/api/stock-usage/${id}`, usage);
     return response.data.stock_usage;
   },
   async balances(params = {}) {
@@ -332,6 +361,9 @@ export const stockApi = {
     if (params.site_id) query.set('site_id', params.site_id);
     const suffix = query.toString() ? `?${query.toString()}` : '';
     const response = await apiClient.get(`/api/stock-balances${suffix}`);
-    return response.data.stock_balances;
+    return {
+      site_summaries: response.data.site_summaries || [],
+      stock_balances: response.data.stock_balances || [],
+    };
   },
 };

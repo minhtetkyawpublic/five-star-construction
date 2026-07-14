@@ -246,7 +246,7 @@ export function MonthlyWorkerReports() {
     <section className="panel">
       <div className="section-header">
         <h2>Monthly Worker Report</h2>
-        <button className="ghost-button" onClick={() => setFilterOpen(true)} type="button">Filter</button>
+        <button className="ghost-button" onClick={() => setFilterOpen(true)} type="button">{t('common.filter')}</button>
       </div>
       {filterOpen && (
         <Modal title="Filter Monthly Worker Report" onClose={() => setFilterOpen(false)}>
@@ -314,16 +314,16 @@ export function MonthlyStockReports() {
   return (
     <section className="panel">
       <div className="section-header">
-        <h2>Monthly Stock/Cash Report</h2>
+        <h2>{t('reports.monthlyStockTitle')}</h2>
         <button className="ghost-button" onClick={() => setFilterOpen(true)} type="button">Filter</button>
       </div>
       {filterOpen && (
-        <Modal title="Filter Stock/Cash Report" onClose={() => setFilterOpen(false)}>
+        <Modal title={t('reports.filterStockCash')} onClose={() => setFilterOpen(false)}>
           <FilterForm filters={filters} setFilters={setFilters} sites={sites} onSubmit={loadReport} />
         </Modal>
       )}
       {error && <p className="form-error">{error}</p>}
-      {loading && <p className="hint">Loading stock report...</p>}
+      {loading && <p className="hint">{t('reports.loadingStock')}</p>}
       <VisibleList
         items={rows}
         loading={loading}
@@ -332,11 +332,11 @@ export function MonthlyStockReports() {
         renderItem={(site) => (
           <div className="site-card read-only-card" key={site.site_id}>
             <span>{site.site_name}</span>
-            <small>Cash {formatMoney(site.cash_received)} | Purchases {formatMoney(site.purchase_total)}</small>
-            <small>Expected cash left {formatMoney(site.expected_cash_remaining)}</small>
+            <small>{t('reports.cash')} {formatMoney(site.cash_received)} | {t('reports.purchases')} {formatMoney(site.purchase_total)}</small>
+            <small>{t('reports.expectedCashLeft')} {formatMoney(site.expected_cash_remaining)}</small>
             {site.items.map((item) => (
               <small key={item.item_id}>
-                {item.item_name}: {item.remaining_quantity} {item.unit} left
+                {item.item_name}: {item.remaining_quantity} {item.unit} {t('stock.left')}
               </small>
             ))}
           </div>
