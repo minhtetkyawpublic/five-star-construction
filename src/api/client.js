@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost/five-star-construction/server/public/index.php';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '../server/public/index.php';
 const TOKEN_KEY = 'five_star_auth_token';
 
 function normalizePath(path) {
